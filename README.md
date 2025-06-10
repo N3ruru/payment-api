@@ -28,17 +28,20 @@ Criar um sistema de **cliente-servidor** que:
 ```bash
 git clone https://github.com/N3ruru/payment-api.git
 cd payment-api
+```
 
 2️⃣ Compile e execute a aplicação:
 
 ```bash
 mvn clean install
 mvn spring-boot:run
+```
 3️⃣ Teste a API com Postman ou cURL:
 
 ```bash
 curl -X POST http://localhost:8080/authorization \
 -H "Content-Type: application/json" \
 -d '{"value": 100, "cardNumber": "1234567890123456"}'
+```
 📜 Licença
 Este projeto está sob a licença MIT. Sinta-se à vontade para usá-lo e contribuir!
