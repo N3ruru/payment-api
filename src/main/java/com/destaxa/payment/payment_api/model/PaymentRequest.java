@@ -1,69 +1,59 @@
 package com.destaxa.payment.payment_api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 
-import com.destaxa.payment.payment_api.exception.Exception;
-
 public class PaymentRequest {
-    @NotBlank(message = "Número do cartão é obrigatório")
-    @Size(min = 16, max = 16, message = "Número do cartão deve ter 16 dígitos")
-    private String cardNumber;
+    @JsonProperty("external_id")
+    @NotBlank(message = "O ID externo não pode ser vazio.")
+    private String externalId;
 
-    @Positive(message = "O valor do pagamento deve ser positivo")
+    @JsonProperty("value")
+    @Positive(message = "O valor do pagamento deve ser maior que zero.")
     private double value;
 
-    @Min(value = 1, message = "Mês de expiração inválido")
-    @Max(value = 12, message = "Mês de expiração inválido")
-    private int expMonth;
+    @JsonProperty("card_number")
+    @NotBlank(message = "O número do cartão não pode ser vazio.")
+    @Size(min = 13, max = 19, message = "O número do cartão deve ter entre 13 e 19 dígitos.")
+    private String cardNumber;
 
-    @Min(value = 1, message = "Ano de expiração inválido")
-    @Max(value = 99, message = "Ano de expiração inválido")
-    private int expYear;
+    @JsonProperty("installments")
+    @Min(value = 1, message = "O número mínimo de parcelas é 1.")
+    private int installments;
 
-    @NotBlank(message = "Nome do titular é obrigatório")
-    private String holderName;
-
-    @NotBlank(message = "CVV é obrigatório")
-    @Size(min = 3, max = 3, message = "CVV deve ter 3 dígitos")
+    @JsonProperty("cvv")
+    @NotBlank(message = "O CVV não pode ser vazio.")
+    @Size(min = 3, max = 4, message = "O CVV deve ter 3 ou 4 dígitos.")
     private String cvv;
 
-    public void validateExpiration() {
-        int currentYear = java.time.Year.now().getValue() % 100;
-        int currentMonth = java.time.Month.from(java.time.LocalDate.now()).getValue();
+    @JsonProperty("exp_month")
+    @Min(value = 1, message = "Mês de expiração inválido.")
+    @Max(value = 12, message = "Mês de expiração inválido.")
+    private int expMonth;
 
-        if (expYear < currentYear || (expYear == currentYear && expMonth < currentMonth)) {
-            throw new Exception("O cartão expirou. Mês ou ano inválido.");
-        }
-    }
+    @JsonProperty("exp_year")
+    @Min(value = 2024, message = "Ano de expiração inválido.")
+    private int expYear;
 
-    public void validateCardNumber() {
-        int sum = 0;
-        boolean alternate = false;
+    @JsonProperty("holder_name")
+    @NotBlank(message = "O nome do titular não pode ser vazio.")
+    private String holderName;
 
-        for (int i = cardNumber.length() - 1; i >= 0; i--) {
-            int digit = Character.getNumericValue(cardNumber.charAt(i));
+    // Getters e Setters
+    public String getExternalId() { return externalId; }
+    public void setExternalId(String externalId) { this.externalId = externalId; }
 
-            if (alternate) {
-                digit *= 2;
-                if (digit > 9) {
-                    digit -= 9;
-                }
-            }
-            sum += digit;
-            alternate = !alternate;
-        }
-
-        if (sum % 10 != 0) {
-            throw new Exception("Número do cartão inválido.");
-        }
-    }
-
+    public double getValue() { return value; }
+    public void setValue(double value) { this.value = value; }
 
     public String getCardNumber() { return cardNumber; }
     public void setCardNumber(String cardNumber) { this.cardNumber = cardNumber; }
 
-    public double getValue() { return value; }
-    public void setValue(double value) { this.value = value; }
+    public int getInstallments() { return installments; }
+    public void setInstallments(int installments) { this.installments = installments; }
+
+    public String getCvv() { return cvv; }
+    public void setCvv(String cvv) { this.cvv = cvv; }
 
     public int getExpMonth() { return expMonth; }
     public void setExpMonth(int expMonth) { this.expMonth = expMonth; }
@@ -73,7 +63,4 @@ public class PaymentRequest {
 
     public String getHolderName() { return holderName; }
     public void setHolderName(String holderName) { this.holderName = holderName; }
-
-    public String getCvv() { return cvv; }
-    public void setCvv(String cvv) { this.cvv = cvv; }
 }

@@ -21,6 +21,8 @@ public class GlobalExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage());
         }
 
+        System.out.println("🔍 Erros de validação detectados: " + errors); // Log dos erros
+
         Map<String, Object> response = new HashMap<>();
         response.put("status", HttpStatus.BAD_REQUEST.value());
         response.put("error", "Validation Error");
@@ -30,6 +32,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(response);
     }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleCardExpirationException(Exception ex) {

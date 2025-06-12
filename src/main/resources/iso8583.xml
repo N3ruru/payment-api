@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE isopackager PUBLIC "-//jPOS//DTD jPOS Generic Packager//EN"
+        "http://jpos.org/dtd/generic-packager-1.0.dtd">
+<isopackager>
+    <isofield id="0" length="4" name="MESSAGE TYPE INDICATOR" class="org.jpos.iso.IFA_NUMERIC"/>
+
+    <isofield id="1" length="16" name="BIT MAP" class="org.jpos.iso.IFB_BITMAP"/>
+
+    <isofield id="2" length="19" name="Primary Account Number" class="org.jpos.iso.IFB_LLNUM"/>
+    <isofield id="4" length="12" name="Transaction Amount" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="11" length="6" name="Systems Trace Audit Number" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="12" length="6" name="Transaction Time" class="org.jpos.iso.IFB_NUMERIC"/>
+    <isofield id="37" length="12" name="Retrieval Reference Number" class="org.jpos.iso.IFB_LLNUM"/>
+    <isofield id="38" length="6" name="Authorization Code" class="org.jpos.iso.IF_CHAR"/>
+    <isofield id="39" length="2" name="Response Code" class="org.jpos.iso.IF_CHAR"/>
+</isopackager>
